@@ -1,0 +1,48 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --tile-width: 40px;
+}
+
+.gameboard {
+  border: 1px solid black;
+  display: inline-block;
+}
+
+#gb1 {
+  border-color: red;
+}
+
+#gb2 {
+  border-color: blue;
+}
+
+.row {
+  display: flex;
+}
+
+.grid-label {
+  width: var(--tile-width);
+  height: var(--tile-width);
+  font-size: 30px;
+  text-align: center;
+}
+
+.tile {
+  background-color: #ffffff;
+  border: 1px solid #919191;
+  width: var(--tile-width);
+  height: var(--tile-width);
+}
+
+.hit {
+  background-color: #f1906c;
+}
+
+.miss {
+  background-color: #8f9b97;
+}
