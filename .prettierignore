@@ -1,0 +1,8 @@
+# Ignore artifacts:
+build
+coverage
+node_modules
+README.md
+webpack.dev.js
+webpack.prod.js
+eslint.config.js
