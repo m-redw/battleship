@@ -1,14 +1,8 @@
-import "./styles.css";
-
-const gameboard1 = document.getElementById("gb1");
-const gameboard2 = document.getElementById("gb2");
-
-populateGB(gameboard1);
-populateGB(gameboard2);
+export { populateGB, setTurnLabel, setWinLabel };
 
 function createTile() {
   const tile = document.createElement("div");
-  tile.classList.add("tile");
+  tile.classList.add("tile", "new");
   return tile;
 }
 
@@ -33,10 +27,21 @@ function populateGB(gb) {
       rowLabel.textContent = i;
       for (let j = 0; j < 10; j++) {
         const tile = createTile();
+        tile.classList.add(`${i}`, `${j}`);
         row.appendChild(tile);
       }
     }
 
     gb.appendChild(row);
   }
+}
+
+function setTurnLabel(player) {
+  const turnLabel = document.getElementById("turn-label");
+  turnLabel.textContent = `${player}'s Turn.  `;
+}
+
+function setWinLabel(player) {
+  const winLabel = document.getElementById("win-label");
+  winLabel.textContent = `${player} Wins!`;
 }
