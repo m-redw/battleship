@@ -5,4 +5,8 @@ export class Player {
     this.type = type;
     this.gb = new Gameboard();
   }
+
+  resetGB() {
+    this.gb = new Gameboard();
+  }
 }

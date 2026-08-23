@@ -6,7 +6,7 @@ function createTile() {
   return tile;
 }
 
-function populateGB(gb) {
+function populateGB(gb, gridData) {
   for (let i = -1; i < 10; i++) {
     const row = document.createElement("div");
     row.classList.add("row");
@@ -28,6 +28,11 @@ function populateGB(gb) {
       for (let j = 0; j < 10; j++) {
         const tile = createTile();
         tile.classList.add(`${i}`, `${j}`);
+        if (gridData) {
+          if (gridData[i][j] !== null) {
+            tile.classList.add("hit");
+          }
+        }
         row.appendChild(tile);
       }
     }
@@ -38,7 +43,7 @@ function populateGB(gb) {
 
 function setTurnLabel(player) {
   const turnLabel = document.getElementById("turn-label");
-  turnLabel.textContent = `${player}'s Turn.  `;
+  turnLabel.textContent = `${player}`;
 }
 
 function setWinLabel(player) {
