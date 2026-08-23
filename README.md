@@ -3,7 +3,7 @@
 ## Rambling!!!
 Ye imma be honest and say I just wanted to get this project over with.
 
-I barely planned and I just slogged through the ending majority of the coding. 
+I barely planned and I just slogged through the final majority of the coding. 
 
 Literally stopped bugfixing a "smarter" CPU because I was so sick and tired of this project. I literally just scrapped it and ctrl+z'd all the way back to the "dumber" CPU. 
 
@@ -18,4 +18,4 @@ Also, the ordering of the instructions and steps was genuinely dookie. Seemed li
 I probably shouldn't use the Odin Project's Assignment section as a fully step-by-step process *(EVEN THOUGH IT'S IN NUMBERED ORDER)*.
 
 ## Take Away
-Honestly, what I learned from this experience was to focus more on planning and view the "steps/instructions" by the Odin Project as more guidelines/criteria than step-by-step. 
+Honestly, what I learned from this experience was to focus more on planning and view the "steps/instructions" by the Odin Project as more guidelines/criteria than a step-by-step guide. 
