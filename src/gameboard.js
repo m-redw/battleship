@@ -46,17 +46,17 @@ export class Gameboard {
       throw new Error("Coord value out of range (0-9)!");
     }
 
-    if (this.grid[x][y] instanceof Ship) {
-      this.grid[x][y].hit();
-      this.grid[x][y] = "hit";
-      return true;
-    } else if (this.grid[x][y] === "hit") {
-      console.log(this.grid);
-      return true;
+    if (this.grid[y][x] instanceof Ship) {
+      this.grid[y][x].hit();
+      this.grid[y][x] = "hit";
+      return "hit";
+    } else if (this.grid[y][x] === "hit") {
+      return "hit";
+    } else if (this.grid[y][x] === "miss") {
+      return "missed";
     }
-    console.log(`${x}, ${y}`);
-    this.grid[x][y] = "miss";
-    return false;
+    this.grid[y][x] = "miss";
+    return "miss";
   }
 
   allShipsSunk() {

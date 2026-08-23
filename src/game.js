@@ -14,13 +14,19 @@ const p1 = new Player();
 const p2 = new Player();
 let turn = 1;
 
+if (confirm("Player 2 CPU?")) {
+  p2.type = "cpu";
+}
+
 // Ship placement
 const placeButton = document.getElementById("place-ship");
 const submitShipButton = document.getElementById("submit-ship");
 
 let currentPlayerSelecting = 1;
+let hasPlacedShips = false;
 
 placeButton.addEventListener("click", () => {
+  hasPlacedShips = true;
   if (currentPlayerSelecting === 1) {
     randomizeGB(p1, gameboard1DOM);
   } else {
@@ -40,10 +46,21 @@ function randomizeGB(player, playerGBDOM) {
 }
 
 submitShipButton.addEventListener("click", () => {
+  if (!hasPlacedShips) return;
   if (submitShipButton.textContent === "Next Player") {
     resetGBDisplay(gameboard1DOM);
-    currentPlayerSelecting = 2;
-    submitShipButton.textContent = "Start Game";
+    hasPlacedShips = false;
+    if (p2.type !== "cpu") {
+      currentPlayerSelecting = 2;
+      submitShipButton.textContent = "Start Game";
+    } else {
+      randomizeGB(p2, gameboard2DOM);
+      resetGBDisplay(gameboard2DOM);
+      const body = document.querySelector("body");
+      body.removeChild(placeButton);
+      body.removeChild(submitShipButton);
+      startGame();
+    }
   } else {
     resetGBDisplay(gameboard2DOM);
     const body = document.querySelector("body");
@@ -135,7 +152,7 @@ function startGame() {
       const y = classes[3] ?? classes[2];
       const hitStatus = p1.gb.receiveAttack(x, y);
 
-      if (hitStatus === true) {
+      if (hitStatus === "hit") {
         tile.classList.replace("new", "hit");
         tile.textContent = "O";
 
@@ -144,6 +161,8 @@ function startGame() {
           setWinLabel("Player 2");
         }
 
+        return;
+      } else if (hitStatus === "missed") {
         return;
       }
 
@@ -163,7 +182,7 @@ function startGame() {
       const y = classes[3] ?? classes[2];
       const hitStatus = p2.gb.receiveAttack(x, y);
 
-      if (hitStatus === true) {
+      if (hitStatus === "hit") {
         tile.classList.replace("new", "hit");
         tile.textContent = "O";
 
@@ -173,12 +192,49 @@ function startGame() {
         }
 
         return;
+      } else if (hitStatus === "missed") {
+        return;
       }
 
       tile.textContent = "X";
       tile.classList.replace("new", "miss");
       turn = 2;
       setTurnLabel("Player 2's Turn.  ");
+
+      if (p2.type === "cpu") {
+        while (turn === 2) {
+          let randX = Math.floor(Math.random() * 10);
+          let randY = Math.floor(Math.random() * 10);
+          while (p2.previousShots.has(`${randX},${randY}`)) {
+            randX = Math.floor(Math.random() * 10);
+            randY = Math.floor(Math.random() * 10);
+          }
+          p2.previousShots.add(`${randX},${randY}`);
+          p2.shotsList.push(`${randX},${randY}`);
+          const cpuHitStatus = p1.gb.receiveAttack(randX, randY);
+          const gridNodes = Array.from(gameboard1DOM.children).map((row) =>
+            Array.from(row.children),
+          );
+          const cpuHitTile = gridNodes[randY + 1][randX + 1];
+
+          if (cpuHitStatus === "hit") {
+            cpuHitTile.classList.replace("new", "hit");
+            cpuHitTile.textContent = "O";
+
+            if (p1.gb.allShipsSunk()) {
+              turn = 0;
+              setWinLabel("Player 2");
+            }
+
+            continue;
+          }
+
+          cpuHitTile.textContent = "X";
+          cpuHitTile.classList.replace("new", "miss");
+          turn = 1;
+          setTurnLabel("Player 1's Turn.  ");
+        }
+      }
     });
   });
 }
